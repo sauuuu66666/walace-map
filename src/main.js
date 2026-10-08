@@ -10,8 +10,7 @@ style.textContent = `
 document.head.appendChild(style);
 
 app.innerHTML = `<aside class="sidebar">
-<div class="title-row"><div class="title"><div class="logo">★</div><div><h1 data-i18n="title">Wplace 分布マップ</h1><p class="subtitle" data-i18n="subtitle">公開されている地点の分布</p></div></div><div class="language-switch"><button class="language-button active" data-lang="ja">日本語</button><button class="language-button" data-lang="en">English</button></div></div>
-<div class="notice" data-i18n="notice">タグを選ぶと、一覧と地図の両方が絞り込まれます。</div>
+<div class="title-row"><div class="title"><div class="logo">★</div><div><h1 data-i18n="title">Wplace 分布マップ</h1></div></div><div class="language-switch"><button class="language-button active" data-lang="ja">日本語</button><button class="language-button" data-lang="en">English</button></div></div>
 <div class="toolbar"><input id="search" data-i18n-placeholder="searchPlaceholder" placeholder="メモ・座標・タグを検索"><button id="fit" data-i18n="fitAll">全体表示</button></div>
 <div class="filter-head"><span class="filter-label" data-i18n="tagSearch">タグ検索</span><div class="mode-switch"><button class="mode-button active" data-mode="AND">AND</button><button class="mode-button" data-mode="OR">OR</button></div></div><div id="tag-filter" class="tag-filter"></div><div id="status" class="status" data-i18n="loading">読み込み中...</div><div id="list"></div>
 </aside><main id="map"><div style="padding:24px" id="map-message">地図を準備中...</div></main>`;
