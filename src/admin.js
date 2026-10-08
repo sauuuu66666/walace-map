@@ -3,7 +3,7 @@ if (!app) throw new Error('Missing #admin-app');
 
 const style = document.createElement('style');
 style.textContent = `
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#172033;background:#f4f7fb}button,input,textarea{font:inherit}.page{max-width:1100px;margin:auto;padding:24px}.header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}.title{display:flex;align-items:center;gap:12px}.logo{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:#152238;color:#ffc400;font-size:28px}h1{margin:0;font-size:24px}.subtitle{margin:3px 0 0;color:#64748b;font-size:13px}.back{padding:9px 12px;border-radius:9px;background:#e8eef5;color:#172033;text-decoration:none;font-weight:700}.grid{display:grid;grid-template-columns:360px 1fr;gap:18px}.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 6px 24px rgb(15 23 42/6%);padding:18px}.card h2{font-size:17px;margin:0 0 14px}label{display:block;margin:11px 0 5px;font-size:12px;font-weight:700}input,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:9px;background:#fff}textarea{height:84px;resize:vertical}.row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}button,.file-button{border:0;border-radius:9px;padding:9px 11px;background:#e8eef5;color:#172033;font-weight:700;font-size:13px;cursor:pointer;text-decoration:none;text-align:center}.primary{background:#0b6ea8;color:#fff;flex:1}.danger{color:#b42318}.secondary{background:#eef6ff;color:#075985}.status{margin:12px 0;color:#64748b;font-size:12px;white-space:pre-wrap}.toolbar{display:flex;gap:8px;margin-bottom:12px}.toolbar input{flex:1}.item{padding:14px 0;border-top:1px solid #e2e8f0}.item:first-child{border-top:0}.item-title{font-weight:700}.coords{color:#64748b;font-size:12px;margin-top:3px}.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.tag{padding:3px 7px;border-radius:999px;background:#e0f2fe;color:#075985;font-size:11px;font-weight:700}.item-actions{display:flex;gap:7px;margin-top:9px}.empty{color:#64748b;padding:18px 0}.notice{padding:10px 12px;border-radius:9px;background:#fff7ed;color:#9a3412;font-size:12px;margin-bottom:12px}.edit-mode{background:#fefce8;border-color:#fde68a}@media(max-width:800px){.grid{grid-template-columns:1fr}.header{align-items:flex-start}.page{padding:14px}}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#172033;background:#f4f7fb}button,input,textarea{font:inherit}.page{max-width:1100px;margin:auto;padding:24px}.header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}.title{display:flex;align-items:center;gap:12px}.logo{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:#152238;color:#ffc400;font-size:28px}h1{margin:0;font-size:24px}.subtitle{margin:3px 0 0;color:#64748b;font-size:13px}.back{padding:9px 12px;border-radius:9px;background:#e8eef5;color:#172033;text-decoration:none;font-weight:700}.grid{display:grid;grid-template-columns:360px 1fr;gap:18px}.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 6px 24px rgb(15 23 42/6%);padding:18px}.card h2{font-size:17px;margin:0 0 14px}label{display:block;margin:11px 0 5px;font-size:12px;font-weight:700}input,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:9px;background:#fff}textarea{height:84px;resize:vertical}.row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}button,.file-button{border:0;border-radius:9px;padding:9px 11px;background:#e8eef5;color:#172033;font-weight:700;font-size:13px;cursor:pointer;text-decoration:none;text-align:center}.primary{background:#0b6ea8;color:#fff;flex:1}.danger{color:#b42318}.secondary{background:#eef6ff;color:#075985}.status{margin:12px 0;color:#64748b;font-size:12px;white-space:pre-wrap}.toolbar{display:flex;gap:8px;margin-bottom:12px}.toolbar input{flex:1}.item{padding:14px 0;border-top:1px solid #e2e8f0}.item:first-child{border-top:0}.item-title{font-weight:700}.coords{color:#64748b;font-size:12px;margin-top:3px}.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.tag{padding:3px 7px;border-radius:999px;background:#e0f2fe;color:#075985;font-size:11px;font-weight:700}.preset-tags{display:grid;gap:10px;margin-top:8px}.preset-group-title{font-size:11px;font-weight:800;color:#64748b;margin-bottom:5px}.preset-buttons{display:flex;flex-wrap:wrap;gap:6px}.preset-tag{padding:6px 9px;border:1px solid #94a3b8;background:#fff;color:#334155}.preset-tag.active{border-color:#0b6ea8;background:#0b6ea8;color:#fff}.selected-tags{min-height:30px;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;padding:8px;border:1px dashed #94a3b8}.selected-tag{padding:4px 8px;border-radius:999px;background:#dbeafe;color:#1e40af;font-size:12px;font-weight:700}.tag-help{margin-top:5px;color:#64748b;font-size:11px}.item-actions{display:flex;gap:7px;margin-top:9px}.empty{color:#64748b;padding:18px 0}.notice{padding:10px 12px;border-radius:9px;background:#fff7ed;color:#9a3412;font-size:12px;margin-bottom:12px}.edit-mode{background:#fefce8;border-color:#fde68a}@media(max-width:800px){.grid{grid-template-columns:1fr}.header{align-items:flex-start}.page{padding:14px}}
 `;
 document.head.appendChild(style);
 
@@ -21,8 +21,13 @@ app.innerHTML = `
       <input id="url" placeholder="https://wplace.live/?lat=...&lng=...">
       <label for="note">メモ</label>
       <textarea id="note" placeholder="地点の説明"></textarea>
-      <label for="tags">タグ</label>
-      <input id="tags" placeholder="日本, イベント, 制作中">
+      <label>プリセットタグ</label>
+      <div id="preset-tags" class="preset-tags"></div>
+      <label for="tags">カスタムタグ</label>
+      <input id="tags" placeholder="カンマ区切りで追加">
+      <div class="tag-help">プリセットをクリックして付け外しできます。自由入力との併用も可能です。</div>
+      <label>選択中のタグ</label>
+      <div id="selected-tags" class="selected-tags"></div>
       <div class="row"><button class="primary" id="save">追加</button><button id="cancel" hidden>編集をキャンセル</button></div>
       <div class="status" id="status">public/locations.json または既存JSONを読み込んで編集できます。</div>
       <div class="row">
@@ -44,6 +49,12 @@ const $ = s => document.querySelector(s);
 const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let items = [];
 let editingId = null;
+const TAG_GROUPS = {
+  Status: ['Planned', 'WIP', 'Completed'],
+  Type: ['Project', 'Event', 'Official', 'Alliance'],
+  Region: ['Japan', 'Asia', 'Europe', 'North America', 'South America', 'Oceania', 'Africa']
+};
+let selectedPresetTags = new Set();
 
 function parseUrl(value) {
   try {
@@ -56,9 +67,21 @@ function parseUrl(value) {
   } catch { return null; }
 }
 function parseTags(value) { return [...new Set(String(value).split(/[,、\n]/).map(x => x.trim().replace(/^#/, '')).filter(Boolean))]; }
-function createItem(parsed, note, tags) { return { id: crypto.randomUUID(), ...parsed, note: note.trim() || 'メモなし', tags: parseTags(tags) }; }
+function allEditorTags() { return [...new Set([...selectedPresetTags, ...parseTags($('#tags').value)])]; }
+function renderPresetTags() {
+  $('#preset-tags').innerHTML = Object.entries(TAG_GROUPS).map(([group,tags]) => `<div><div class="preset-group-title">${esc(group)}</div><div class="preset-buttons">${tags.map(tag => `<button type="button" class="preset-tag ${selectedPresetTags.has(tag)?'active':''}" data-preset-tag="${esc(tag)}">#${esc(tag)}</button>`).join('')}</div></div>`).join('');
+  const selected=allEditorTags();
+  $('#selected-tags').innerHTML=selected.length?selected.map(tag=>`<button type="button" class="selected-tag" data-remove-tag="${esc(tag)}">#${esc(tag)} ×</button>`).join(''):'<span class="tag-help">タグ未選択</span>';
+}
+function setEditorTags(tags) {
+  const presetSet=new Set(Object.values(TAG_GROUPS).flat());
+  selectedPresetTags=new Set(tags.filter(tag=>presetSet.has(tag)));
+  $('#tags').value=tags.filter(tag=>!presetSet.has(tag)).join(', ');
+  renderPresetTags();
+}
+function createItem(parsed, note, tags) { return { id: crypto.randomUUID(), ...parsed, note: note.trim() || 'メモなし', tags: Array.isArray(tags)?[...new Set(tags)]:parseTags(tags) }; }
 function setStatus(text, error=false) { $('#status').textContent=text; $('#status').style.color=error?'#b42318':'#64748b'; }
-function resetEditor() { editingId=null; $('#url').value=''; $('#note').value=''; $('#tags').value=''; $('#editor-title').textContent='地点を追加'; $('#save').textContent='追加'; $('#cancel').hidden=true; $('#editor-card').classList.remove('edit-mode'); }
+function resetEditor() { editingId=null; $('#url').value=''; $('#note').value=''; selectedPresetTags.clear(); $('#tags').value=''; $('#editor-title').textContent='地点を追加'; $('#save').textContent='追加'; $('#cancel').hidden=true; $('#editor-card').classList.remove('edit-mode'); renderPresetTags(); }
 function visibleItems() { const q=$('#search').value.trim().toLowerCase(); return q?items.filter(x=>[x.note,x.url,x.lat,x.lng,...(x.tags||[])].some(v=>String(v).toLowerCase().includes(q))):items; }
 function render() {
   const visible=visibleItems();
@@ -86,10 +109,14 @@ function parseText(text) {
   }return result;
 }
 
+$('#preset-tags').onclick=e=>{const tag=e.target.dataset.presetTag;if(!tag)return;selectedPresetTags.has(tag)?selectedPresetTags.delete(tag):selectedPresetTags.add(tag);renderPresetTags();};
+$('#selected-tags').onclick=e=>{const tag=e.target.dataset.removeTag;if(!tag)return;if(selectedPresetTags.has(tag))selectedPresetTags.delete(tag);else $('#tags').value=parseTags($('#tags').value).filter(value=>value!==tag).join(', ');renderPresetTags();};
+$('#tags').addEventListener('input',renderPresetTags);
+renderPresetTags();
 $('#save').onclick=()=>{
   const parsed=parseUrl($('#url').value);if(!parsed)return setStatus('lat と lng を含むWplace共有リンクを入力してください。',true);
-  if(editingId){const item=items.find(x=>x.id===editingId);Object.assign(item,parsed,{note:$('#note').value.trim()||'メモなし',tags:parseTags($('#tags').value)});setStatus('地点を更新しました。');}
-  else{items.push(createItem(parsed,$('#note').value,$('#tags').value));setStatus('地点を追加しました。');}
+  if(editingId){const item=items.find(x=>x.id===editingId);Object.assign(item,parsed,{note:$('#note').value.trim()||'メモなし',tags:allEditorTags()});setStatus('地点を更新しました。');}
+  else{items.push(createItem(parsed,$('#note').value,allEditorTags()));setStatus('地点を追加しました。');}
   resetEditor();render();
 };
 $('#cancel').onclick=resetEditor;
@@ -97,7 +124,7 @@ $('#search').oninput=render;
 $('#sort').onclick=()=>{items.sort((a,b)=>a.note.localeCompare(b.note,'ja'));render();};
 $('#list').onclick=e=>{
   const edit=e.target.dataset.edit,del=e.target.dataset.delete;
-  if(edit){const item=items.find(x=>x.id===edit);if(!item)return;editingId=item.id;$('#url').value=item.url;$('#note').value=item.note;$('#tags').value=(item.tags||[]).join(', ');$('#editor-title').textContent='地点を編集';$('#save').textContent='更新';$('#cancel').hidden=false;$('#editor-card').classList.add('edit-mode');window.scrollTo({top:0,behavior:'smooth'});}
+  if(edit){const item=items.find(x=>x.id===edit);if(!item)return;editingId=item.id;$('#url').value=item.url;$('#note').value=item.note;setEditorTags(item.tags||[]);$('#editor-title').textContent='地点を編集';$('#save').textContent='更新';$('#cancel').hidden=false;$('#editor-card').classList.add('edit-mode');window.scrollTo({top:0,behavior:'smooth'});}
   if(del&&confirm('この地点を削除しますか？')){items=items.filter(x=>x.id!==del);if(editingId===del)resetEditor();render();}
 };
 $('#clear').onclick=()=>{if(confirm('すべての地点を削除しますか？')){items=[];resetEditor();render();}};
