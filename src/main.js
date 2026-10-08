@@ -65,27 +65,68 @@ input:focus{
   transform:none;
 }
 .sidebar{border-right:3px solid #172033}
-@media(max-width:760px){body{overflow:auto}#app{grid-template-columns:1fr;grid-template-rows:42vh 58vh}.sidebar{height:42vh}#map{height:58vh}}
+
+#app{transition:grid-template-columns .2s ease}
+.sidebar{transition:transform .2s ease,opacity .2s ease;min-width:0}
+.panel-toggle{
+  position:fixed;
+  left:352px;
+  top:14px;
+  z-index:20;
+  width:auto;
+  min-width:44px;
+  height:38px;
+  padding:5px 9px;
+  background:#ffc400;
+  color:#172033;
+}
+#app.panel-collapsed{grid-template-columns:0 1fr}
+#app.panel-collapsed .sidebar{transform:translateX(-100%);opacity:0;pointer-events:none}
+#app.panel-collapsed .panel-toggle{left:14px}
+@media(max-width:760px){
+  body{overflow:hidden}
+  #app{display:block;position:relative}
+  .sidebar{position:absolute;inset:0 0 auto 0;width:100%;height:46vh;border-right:0;border-bottom:3px solid #172033;z-index:10}
+  #map{height:100vh;width:100%}
+  .panel-toggle{left:auto;right:14px;top:14px;z-index:30}
+  #app.panel-collapsed .sidebar{transform:translateY(-105%);opacity:0;pointer-events:none}
+  #app.panel-collapsed .panel-toggle{left:auto;right:14px}
+}
 `;
 document.head.appendChild(style);
 
-app.innerHTML = `<aside class="sidebar">
+app.innerHTML = `<aside class="sidebar" id="sidebar">
 <div class="title-row"><div class="title"><div class="logo">★</div><div><h1 data-i18n="title">Wplace 分布マップ</h1></div></div><div class="language-switch"><button class="language-button active" data-lang="ja">日本語</button><button class="language-button" data-lang="en">English</button></div></div>
 <div class="toolbar"><input id="search" data-i18n-placeholder="searchPlaceholder" placeholder="メモ・座標・タグを検索"><button id="fit" data-i18n="fitAll">全体表示</button></div>
 <div class="filter-head"><span class="filter-label" data-i18n="tagSearch">タグ検索</span><div class="mode-switch"><button class="mode-button active" data-mode="AND">AND</button><button class="mode-button" data-mode="OR">OR</button></div></div><div id="tag-filter" class="tag-filter"></div><div id="status" class="status" data-i18n="loading">読み込み中...</div><div id="list"></div>
-</aside><main id="map"><div style="padding:24px" id="map-message">地図を準備中...</div></main>`;
+</aside><button id="panel-toggle" class="panel-toggle" type="button" aria-controls="sidebar" aria-expanded="true">◀</button><main id="map"><div style="padding:24px" id="map-message">地図を準備中...</div></main>`;
 
 const $ = s => document.querySelector(s);
 const esc = v => String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let items=[], activeTags=new Set(), tagMode='AND', language=localStorage.getItem('wplace-language')||'en', map=null, maplibregl=null, markers=[];
+let items=[], activeTags=new Set(), tagMode='AND', language=localStorage.getItem('wplace-language')||'en', panelCollapsed=localStorage.getItem('wplace-panel-collapsed')==='true', map=null, maplibregl=null, markers=[];
 const translations={
- ja:{title:'Wplace 分布マップ',subtitle:'公開されている地点の分布',notice:'タグを選ぶと、一覧と地図の両方が絞り込まれます。',searchPlaceholder:'メモ・座標・タグを検索',fitAll:'全体表示',tagSearch:'タグ検索',loading:'読み込み中...',all:'すべて',noResults:'該当地点はありません。',showOnMap:'地図で表示',openWplace:'Wplaceで開く',publicPoints:'公開地点',shown:'表示',mapError:'地図エラー',mapStartError:'地図起動失敗',dataError:'locations.json 読込失敗'},
- en:{title:'Wplace Location Map',subtitle:'Distribution of public locations',notice:'Select tags to filter both the list and map markers.',searchPlaceholder:'Search notes, coordinates, or tags',fitAll:'Fit all',tagSearch:'Tag filter',loading:'Loading...',all:'All',noResults:'No matching locations.',showOnMap:'Show on map',openWplace:'Open in Wplace',publicPoints:'Public locations',shown:'Shown',mapError:'Map error',mapStartError:'Failed to start map',dataError:'Failed to load locations.json'}
+ ja:{title:'Wplace 分布マップ',subtitle:'公開されている地点の分布',notice:'タグを選ぶと、一覧と地図の両方が絞り込まれます。',searchPlaceholder:'メモ・座標・タグを検索',fitAll:'全体表示',tagSearch:'タグ検索',loading:'読み込み中...',all:'すべて',noResults:'該当地点はありません。',showOnMap:'地図で表示',openWplace:'Wplaceで開く',publicPoints:'公開地点',shown:'表示',mapError:'地図エラー',mapStartError:'地図起動失敗',dataError:'locations.json 読込失敗',hidePanel:'地図',showPanel:'メニュー'},
+ en:{title:'Wplace Location Map',subtitle:'Distribution of public locations',notice:'Select tags to filter both the list and map markers.',searchPlaceholder:'Search notes, coordinates, or tags',fitAll:'Fit all',tagSearch:'Tag filter',loading:'Loading...',all:'All',noResults:'No matching locations.',showOnMap:'Show on map',openWplace:'Open in Wplace',publicPoints:'Public locations',shown:'Shown',mapError:'Map error',mapStartError:'Failed to start map',dataError:'Failed to load locations.json',hidePanel:'Map',showPanel:'Menu'}
 };
 const tr=key=>translations[language][key]||key;
 const setStatus=(t,e=false)=>{$('#status').textContent=t;$('#status').classList.toggle('error',e)};
-function applyLanguage(){document.documentElement.lang=language;document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=tr(el.dataset.i18n));document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>el.placeholder=tr(el.dataset.i18nPlaceholder));document.querySelectorAll('[data-lang]').forEach(button=>button.classList.toggle('active',button.dataset.lang===language));render();}
+function applyLanguage(){document.documentElement.lang=language;document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=tr(el.dataset.i18n));document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>el.placeholder=tr(el.dataset.i18nPlaceholder));document.querySelectorAll('[data-lang]').forEach(button=>button.classList.toggle('active',button.dataset.lang===language));updatePanelToggle();render();}
 
+function updatePanelToggle(){
+  document.querySelector('#app').classList.toggle('panel-collapsed',panelCollapsed);
+  const button=$('#panel-toggle');
+  const label=panelCollapsed?tr('showPanel'):tr('hidePanel');
+  button.textContent=panelCollapsed?`▶ ${label}`:`◀ ${label}`;
+  button.setAttribute('aria-expanded',String(!panelCollapsed));
+  button.title=label;
+}
+function togglePanel(){
+  panelCollapsed=!panelCollapsed;
+  localStorage.setItem('wplace-panel-collapsed',String(panelCollapsed));
+  updatePanelToggle();
+  requestAnimationFrame(()=>map?.resize());
+  setTimeout(()=>map?.resize(),230);
+}
 function normalize(data){
  const src=Array.isArray(data)?data:Array.isArray(data?.items)?data.items:[];
  return src.map((x,i)=>{if(!x||typeof x!=='object')return null;let url=x.url||x.link||'',lat=Number(x.lat),lng=Number(x.lng);if((!Number.isFinite(lat)||!Number.isFinite(lng))&&url){try{const u=new URL(url);lat=+u.searchParams.get('lat');lng=+u.searchParams.get('lng')}catch{}}if(!Number.isFinite(lat)||!Number.isFinite(lng))return null;const raw=Array.isArray(x.tags)?x.tags:typeof x.tags==='string'?x.tags.split(/[,、]/):[];return{id:x.id||`p-${i}`,url,lat,lng,note:x.note||x.memo||x.title||'メモなし',tags:[...new Set(raw.map(t=>String(t).trim()).filter(Boolean))]}}).filter(Boolean);
@@ -102,6 +143,7 @@ function render(){
 }
 function fit(){const data=visible();if(!map||!data.length)return;if(data.length===1){map.flyTo({center:[data[0].lng,data[0].lat],zoom:9});return}const b=new maplibregl.LngLatBounds();data.forEach(x=>b.extend([x.lng,x.lat]));map.fitBounds(b,{padding:70,maxZoom:10});}
 
+$('#panel-toggle').onclick=togglePanel;
 document.querySelector('.language-switch').onclick=e=>{const lang=e.target.dataset.lang;if(!lang||lang===language)return;language=lang;localStorage.setItem('wplace-language',language);applyLanguage();};
 $('#search').oninput=()=>{render();if(map&&visible().length)fit();};
 $('#fit').onclick=fit;
