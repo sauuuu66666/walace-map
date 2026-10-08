@@ -1,0 +1,31 @@
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+:root { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #172033; background: #f4f7fb; }
+* { box-sizing: border-box; }
+html, body, #app { width: 100%; height: 100%; margin: 0; }
+body { overflow: hidden; }
+#app { display: grid; grid-template-columns: 360px 1fr; }
+.sidebar { height: 100vh; overflow: auto; padding: 18px; background: white; border-right: 1px solid #dce3ec; z-index: 2; }
+.title { display: flex; gap: 11px; align-items: center; margin-bottom: 16px; }
+.logo { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: #152238; color: #ffc400; font-size: 28px; }
+h1 { margin: 0; font-size: 21px; }
+.subtitle { margin: 3px 0 0; color: #64748b; font-size: 12px; }
+label { display: block; margin: 11px 0 5px; font-size: 12px; font-weight: 700; }
+input, textarea { width: 100%; padding: 10px; border: 1px solid #dce3ec; border-radius: 9px; font: inherit; }
+textarea { height: 68px; resize: vertical; }
+.row { display: flex; gap: 7px; margin-top: 8px; }
+button, .file-button, .link-button { padding: 9px 11px; border: 0; border-radius: 9px; background: #e8eef5; color: #172033; font-weight: 700; font-size: 13px; cursor: pointer; text-decoration: none; text-align: center; }
+.primary { flex: 1; background: #0b6ea8; color: white; }
+.danger { color: #b42318; }
+.status { margin: 10px 0; color: #64748b; font-size: 12px; }
+.search { margin: 12px 0 2px; }
+.item { padding: 10px 2px; border-top: 1px solid #dce3ec; }
+.item b, .item small { display: block; }
+.item small { margin-top: 3px; color: #64748b; }
+.item .row { margin-top: 6px; }
+#map { width: 100%; height: 100vh; }
+.star-marker { display: grid; place-items: center; width: 34px; height: 34px; color: #ffc400; font-size: 30px; line-height: 1; -webkit-text-stroke: 2px #263238; filter: drop-shadow(0 2px 2px #0008); cursor: pointer; }
+.cluster-marker { display: grid; place-items: center; width: 40px; height: 40px; border: 3px solid white; border-radius: 50%; background: #ef4444; color: white; font-weight: 800; box-shadow: 0 2px 8px #0006; cursor: pointer; }
+.maplibregl-popup-content { border-radius: 12px; padding: 12px; }
+.popup-link { display: inline-block; margin-top: 8px; padding: 7px 10px; border-radius: 8px; background: #172033; color: white; text-decoration: none; font-weight: 700; }
+@media (max-width: 760px) { body { overflow: auto; } #app { grid-template-columns: 1fr; grid-template-rows: 45vh 55vh; } .sidebar { height: 45vh; border-right: 0; border-bottom: 1px solid #dce3ec; } #map { height: 55vh; } }
