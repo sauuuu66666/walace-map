@@ -89,7 +89,7 @@ function parseText(text) {
 $('#save').onclick=()=>{
   const parsed=parseUrl($('#url').value);if(!parsed)return setStatus('lat と lng を含むWplace共有リンクを入力してください。',true);
   if(editingId){const item=items.find(x=>x.id===editingId);Object.assign(item,parsed,{note:$('#note').value.trim()||'メモなし',tags:parseTags($('#tags').value)});setStatus('地点を更新しました。');}
-  else{items.unshift(createItem(parsed,$('#note').value,$('#tags').value));setStatus('地点を追加しました。');}
+  else{items.push(createItem(parsed,$('#note').value,$('#tags').value));setStatus('地点を追加しました。');}
   resetEditor();render();
 };
 $('#cancel').onclick=resetEditor;
