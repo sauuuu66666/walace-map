@@ -1776,5 +1776,116 @@
       "Ellen",
       "Victoria Housekeeping"
     ]
+  },
+  {
+    "url": "https://wplace.live/?lat=56.24925885360926&lng=40.749169921874994&zoom=12.572637242922903",
+    "lat": 56.24925885360926,
+    "lng": 40.749169921874994,
+    "note": "No.143",
+    "tags": [
+      "Character",
+      "Jane Doe",
+      "Special Response Team",
+      "Soldier 0 Anby",
+      "Silver Squad"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=48.68637673058551&lng=37.97991210937498&zoom=13.1317703728844",
+    "lat": 48.68637673058551,
+    "lng": 37.97991210937498,
+    "note": "No.144",
+    "tags": [
+      "Character",
+      "Vivian",
+      "Mockingbird",
+      "Evelyn",
+      "Stars of Lyra"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=48.05194135316573&lng=34.83817382812498&zoom=10.79989306633693",
+    "lat": 48.05194135316573,
+    "lng": 34.83817382812498,
+    "note": "No.145",
+    "tags": [
+      "Character",
+      "Jane Doe",
+      "Special Response Team"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=42.35782950558493&lng=-114.34086914062499&zoom=11.997436807973616",
+    "lat": 42.35782950558493,
+    "lng": -114.34086914062499,
+    "note": "No.146",
+    "tags": [
+      "Character",
+      "Sunna",
+      "Angels of Delusion",
+      "Aria",
+      "Nangong Yu",
+      "Ye Shunguang",
+      "Yunkui Summit",
+      "Yixuan",
+      "Anby",
+      "Cunning Hares",
+      "Nicole",
+      "Miyabi",
+      "Section 6"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=45.97711443407518&lng=30.03987304687499&zoom=11.40846594055237",
+    "lat": 45.97711443407518,
+    "lng": 30.03987304687499,
+    "note": "No.147",
+    "tags": [
+      "Character",
+      "Ellen",
+      "Victoria Housekeeping",
+      "Miyabi",
+      "Section 6",
+      "Dialyn",
+      "Krampus",
+      "Yanagi",
+      "Qingyi",
+      "Special Response Team",
+      "Africa",
+      "Anby",
+      "Cunning Hares",
+      "Nicole",
+      "Billy",
+      "Nekomata",
+      "Caesar",
+      "Sons of Calydon",
+      "Soukaku",
+      "Pulchra",
+      "Piper",
+      "Lucy"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=30.34595257381202&lng=-97.28586914062501&zoom=11.71263991469983",
+    "lat": 30.34595257381202,
+    "lng": -97.28586914062501,
+    "note": "No.148",
+    "tags": [
+      "Character",
+      "Miyabi",
+      "Section 6",
+      "Yanagi"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=38.035147033364105&lng=-73.79129882812501&zoom=11.252977562539591",
+    "lat": 38.035147033364105,
+    "lng": -73.79129882812501,
+    "note": "No.149",
+    "tags": [
+      "Character",
+      "Yixuan",
+      "Yunkui Summit"
+    ]
   }
 ]
