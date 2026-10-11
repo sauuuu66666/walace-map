@@ -21,13 +21,10 @@ app.innerHTML = `
       <input id="url" placeholder="https://wplace.live/?lat=...&lng=...">
       <label for="note">メモ</label>
       <textarea id="note" placeholder="地点の説明"></textarea>
-      <label>プリセットタグ</label>
-      <div id="preset-tags" class="preset-tags"></div>
-      <label for="tags">カスタムタグ</label>
-      <input id="tags" placeholder="カンマ区切りで追加">
-      <div class="tag-help">プリセットをクリックして付け外しできます。自由入力との併用も可能です。</div>
-      <label>選択中のタグ</label>
-      <div id="selected-tags" class="selected-tags"></div>
+      <label>プリセットタグ</label><div id="preset-tags" class="preset-tags"></div>
+      <label for="tags">カスタムタグ</label><input id="tags" placeholder="カンマ区切りで追加">
+      <div class="tag-help">キャラクターを選ぶと Character と所属陣営も自動追加されます。</div>
+      <label>選択中のタグ</label><div id="selected-tags" class="selected-tags"></div>
       <div class="row"><button class="primary" id="save">追加</button><button id="cancel" hidden>編集をキャンセル</button></div>
       <div class="status" id="status">public/locations.json または既存JSONを読み込んで編集できます。</div>
       <div class="row">
@@ -50,10 +47,14 @@ const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&
 let items = [];
 let editingId = null;
 const TAG_GROUPS = {
-  Status: ['Planned', 'WIP', 'Completed'],
-  Type: ['Project', 'Event', 'Official', 'Alliance'],
-  Region: ['Japan', 'Asia', 'Europe', 'North America', 'South America', 'Oceania', 'Africa']
+  Subject: ['Character'],
+  Status: ['Planned','WIP','Completed'],
+  Type: ['Project','Event','Official','Alliance'],
+  Region: ['Japan','Asia','Europe','North America','South America','Oceania','Africa'],
+  Faction: ['Phaethon', 'Cunning Hares', 'Belobog', 'Victoria Housekeeping', 'Obol Squad', 'Special Response Team', 'Sons of Calydon', 'Section 6', 'Stars of Lyra', 'Silver Squad', 'Mockingbird', 'Yunkui Summit', 'Spook Shack', 'Krampus', 'Angels of Delusion', 'Metropolitan Order', 'External Strategy', 'Covenant of Dayat', 'Airspace Patrol', 'Flint Workshop'],
+  Character: ['Pyrois', 'Anby', 'Billy', 'Nekomata', 'Nicole', 'Starlight Billy', 'Anton', 'Ben', 'Grace', 'Koleda', 'Rina', 'Corin', 'Ellen', 'Lycaon', 'Soldier 11', 'Trigger', 'Seed', 'Orphie & Magus', 'Zhu Yuan', 'Qingyi', 'Jane Doe', 'Seth', 'Lucy', 'Piper', 'Caesar', 'Burnice', 'Lighter', 'Pulchra', 'Soukaku', 'Yanagi', 'Harumasa', 'Miyabi', 'Astra Yao', 'Evelyn', 'Soldier 0 Anby', 'Vivian', 'Hugo', 'Pan Yinhu', 'Yixuan', 'Ju Fufu', 'Ye Shunguang', 'Yuzuha', 'Alice', 'Manato', 'Lucia', 'Yidhari', 'Dialyn', 'Banyue', 'Zhao', 'Promeia', 'Sunna', 'Aria', 'Nangong Yu', 'Cissia', 'Velina', 'Norma', 'Remielle', 'Sigrid', 'Claret', 'Roxy']
 };
+const CHARACTER_FACTIONS = new Map([['Belle', 'Phaethon'], ['Wise', 'Phaethon'], ['Phoenix', 'Krampus'], ['Severian', 'Metropolitan Order'], ['The Storyteller', ''], ['Sunbringer', ''], ['Pyrois', 'Phaethon'], ['Anby', 'Cunning Hares'], ['Billy', 'Cunning Hares'], ['Nekomata', 'Cunning Hares'], ['Nicole', 'Cunning Hares'], ['Starlight Billy', 'Cunning Hares'], ['Anton', 'Belobog'], ['Ben', 'Belobog'], ['Grace', 'Belobog'], ['Koleda', 'Belobog'], ['Rina', 'Victoria Housekeeping'], ['Corin', 'Victoria Housekeeping'], ['Ellen', 'Victoria Housekeeping'], ['Lycaon', 'Victoria Housekeeping'], ['Soldier 11', 'Obol Squad'], ['Trigger', 'Obol Squad'], ['Seed', 'Obol Squad'], ['Orphie & Magus', 'Obol Squad'], ['Zhu Yuan', 'Special Response Team'], ['Qingyi', 'Special Response Team'], ['Jane Doe', 'Special Response Team'], ['Seth', 'Special Response Team'], ['Lucy', 'Sons of Calydon'], ['Piper', 'Sons of Calydon'], ['Caesar', 'Sons of Calydon'], ['Burnice', 'Sons of Calydon'], ['Lighter', 'Sons of Calydon'], ['Pulchra', 'Sons of Calydon'], ['Soukaku', 'Section 6'], ['Yanagi', 'Section 6'], ['Harumasa', 'Section 6'], ['Miyabi', 'Section 6'], ['Astra Yao', 'Stars of Lyra'], ['Evelyn', 'Stars of Lyra'], ['Soldier 0 Anby', 'Silver Squad'], ['Vivian', 'Mockingbird'], ['Hugo', 'Mockingbird'], ['Pan Yinhu', 'Yunkui Summit'], ['Yixuan', 'Yunkui Summit'], ['Ju Fufu', 'Yunkui Summit'], ['Ye Shunguang', 'Yunkui Summit'], ['Yuzuha', 'Spook Shack'], ['Alice', 'Spook Shack'], ['Manato', 'Spook Shack'], ['Lucia', 'Spook Shack'], ['Yidhari', 'Spook Shack'], ['Dialyn', 'Krampus'], ['Banyue', 'Krampus'], ['Zhao', 'Krampus'], ['Promeia', 'Krampus'], ['Sunna', 'Angels of Delusion'], ['Aria', 'Angels of Delusion'], ['Nangong Yu', 'Angels of Delusion'], ['Cissia', 'Metropolitan Order'], ['Velina', 'External Strategy'], ['Norma', 'External Strategy'], ['Remielle', 'Covenant of Dayat'], ['Sigrid', 'Airspace Patrol'], ['Claret', 'Flint Workshop'], ['Roxy', 'Flint Workshop']]);
 let selectedPresetTags = new Set();
 
 function parseUrl(value) {
@@ -67,21 +68,12 @@ function parseUrl(value) {
   } catch { return null; }
 }
 function parseTags(value) { return [...new Set(String(value).split(/[,、\n]/).map(x => x.trim().replace(/^#/, '')).filter(Boolean))]; }
-function allEditorTags() { return [...new Set([...selectedPresetTags, ...parseTags($('#tags').value)])]; }
-function renderPresetTags() {
-  $('#preset-tags').innerHTML = Object.entries(TAG_GROUPS).map(([group,tags]) => `<div><div class="preset-group-title">${esc(group)}</div><div class="preset-buttons">${tags.map(tag => `<button type="button" class="preset-tag ${selectedPresetTags.has(tag)?'active':''}" data-preset-tag="${esc(tag)}">#${esc(tag)}</button>`).join('')}</div></div>`).join('');
-  const selected=allEditorTags();
-  $('#selected-tags').innerHTML=selected.length?selected.map(tag=>`<button type="button" class="selected-tag" data-remove-tag="${esc(tag)}">#${esc(tag)} ×</button>`).join(''):'<span class="tag-help">タグ未選択</span>';
-}
-function setEditorTags(tags) {
-  const presetSet=new Set(Object.values(TAG_GROUPS).flat());
-  selectedPresetTags=new Set(tags.filter(tag=>presetSet.has(tag)));
-  $('#tags').value=tags.filter(tag=>!presetSet.has(tag)).join(', ');
-  renderPresetTags();
-}
-function createItem(parsed, note, tags) { return { id: crypto.randomUUID(), ...parsed, note: note.trim() || 'メモなし', tags: Array.isArray(tags)?[...new Set(tags)]:parseTags(tags) }; }
+function allEditorTags(){return [...new Set([...selectedPresetTags,...parseTags($('#tags').value)])];}
+function renderPresetTags(){$('#preset-tags').innerHTML=Object.entries(TAG_GROUPS).map(([group,tags])=>`<div><div class="preset-group-title">${esc(group)}</div><div class="preset-buttons">${tags.map(tag=>`<button type="button" class="preset-tag ${selectedPresetTags.has(tag)?'active':''}" data-preset-tag="${esc(tag)}">#${esc(tag)}</button>`).join('')}</div></div>`).join('');const selected=allEditorTags();$('#selected-tags').innerHTML=selected.length?selected.map(tag=>`<button type="button" class="selected-tag" data-remove-tag="${esc(tag)}">#${esc(tag)} ×</button>`).join(''):'<span class="tag-help">タグ未選択</span>';}
+function setEditorTags(tags){const presets=new Set(Object.values(TAG_GROUPS).flat());selectedPresetTags=new Set(tags.filter(tag=>presets.has(tag)));$('#tags').value=tags.filter(tag=>!presets.has(tag)).join(', ');renderPresetTags();}
+function createItem(parsed,note,tags){return{id:crypto.randomUUID(),...parsed,note:note.trim()||'メモなし',tags:Array.isArray(tags)?[...new Set(tags)]:parseTags(tags)};}
 function setStatus(text, error=false) { $('#status').textContent=text; $('#status').style.color=error?'#b42318':'#64748b'; }
-function resetEditor() { editingId=null; $('#url').value=''; $('#note').value=''; selectedPresetTags.clear(); $('#tags').value=''; $('#editor-title').textContent='地点を追加'; $('#save').textContent='追加'; $('#cancel').hidden=true; $('#editor-card').classList.remove('edit-mode'); renderPresetTags(); }
+function resetEditor(){editingId=null;$('#url').value='';$('#note').value='';selectedPresetTags.clear();$('#tags').value='';$('#editor-title').textContent='地点を追加';$('#save').textContent='追加';$('#cancel').hidden=true;$('#editor-card').classList.remove('edit-mode');renderPresetTags();}
 function visibleItems() { const q=$('#search').value.trim().toLowerCase(); return q?items.filter(x=>[x.note,x.url,x.lat,x.lng,...(x.tags||[])].some(v=>String(v).toLowerCase().includes(q))):items; }
 function render() {
   const visible=visibleItems();
@@ -109,10 +101,9 @@ function parseText(text) {
   }return result;
 }
 
-$('#preset-tags').onclick=e=>{const tag=e.target.dataset.presetTag;if(!tag)return;selectedPresetTags.has(tag)?selectedPresetTags.delete(tag):selectedPresetTags.add(tag);renderPresetTags();};
-$('#selected-tags').onclick=e=>{const tag=e.target.dataset.removeTag;if(!tag)return;if(selectedPresetTags.has(tag))selectedPresetTags.delete(tag);else $('#tags').value=parseTags($('#tags').value).filter(value=>value!==tag).join(', ');renderPresetTags();};
-$('#tags').addEventListener('input',renderPresetTags);
-renderPresetTags();
+$('#preset-tags').onclick=e=>{const tag=e.target.dataset.presetTag;if(!tag)return;if(selectedPresetTags.has(tag)){selectedPresetTags.delete(tag);}else{selectedPresetTags.add(tag);const faction=CHARACTER_FACTIONS.get(tag);if(faction){selectedPresetTags.add('Character');selectedPresetTags.add(faction);}}renderPresetTags();};
+$('#selected-tags').onclick=e=>{const tag=e.target.dataset.removeTag;if(!tag)return;if(selectedPresetTags.has(tag))selectedPresetTags.delete(tag);else $('#tags').value=parseTags($('#tags').value).filter(v=>v!==tag).join(', ');renderPresetTags();};
+$('#tags').addEventListener('input',renderPresetTags);renderPresetTags();
 $('#save').onclick=()=>{
   const parsed=parseUrl($('#url').value);if(!parsed)return setStatus('lat と lng を含むWplace共有リンクを入力してください。',true);
   if(editingId){const item=items.find(x=>x.id===editingId);Object.assign(item,parsed,{note:$('#note').value.trim()||'メモなし',tags:allEditorTags()});setStatus('地点を更新しました。');}
