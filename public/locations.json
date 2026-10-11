@@ -207,7 +207,6 @@
     "note": "No.17",
     "tags": [
       "Character",
-      "Africa",
       "Miyabi",
       "Section 6",
       "Ellen",
@@ -222,7 +221,10 @@
       "Hugo",
       "Mockingbird",
       "Lighter",
-      "Harumasa"
+      "Harumasa",
+      "Eous",
+      "Bangboo",
+      "Phaethon"
     ]
   },
   {
@@ -256,9 +258,10 @@
       "Section 6",
       "Jane Doe",
       "Special Response Team",
-      "Oceania",
       "Burnice",
-      "Sons of Calydon"
+      "Sons of Calydon",
+      "Belle",
+      "Phaethon"
     ]
   },
   {
@@ -362,13 +365,16 @@
     "note": "No.28",
     "tags": [
       "Character",
-      "Africa",
       "Miyabi",
       "Section 6",
       "Alice",
       "Spook Shack",
       "Yixuan",
-      "Yunkui Summit"
+      "Yunkui Summit",
+      "Eous",
+      "Bangboo",
+      "Phaethon",
+      "Agent Gulliver"
     ]
   },
   {
@@ -646,13 +652,14 @@
     "note": "No.52",
     "tags": [
       "Character",
-      "Oceania",
       "Burnice",
       "Sons of Calydon",
       "Vivian",
       "Mockingbird",
       "Yixuan",
-      "Yunkui Summit"
+      "Yunkui Summit",
+      "Belle",
+      "Phaethon"
     ]
   },
   {
@@ -720,9 +727,10 @@
     "note": "No.58",
     "tags": [
       "Character",
-      "Oceania",
       "Jane Doe",
-      "Special Response Team"
+      "Special Response Team",
+      "Phaethon",
+      "Belle"
     ]
   },
   {
@@ -881,9 +889,10 @@
     "note": "No.72",
     "tags": [
       "Character",
-      "Oceania",
       "Miyabi",
-      "Section 6"
+      "Section 6",
+      "Belle",
+      "Phaethon"
     ]
   },
   {
@@ -1174,8 +1183,6 @@
     "note": "No.96",
     "tags": [
       "Character",
-      "Oceania",
-      "Africa",
       "Yixuan",
       "Yunkui Summit",
       "Lucy",
@@ -1218,7 +1225,12 @@
       "Orphie & Magus",
       "Seth",
       "Pan Yinhu",
-      "Nekomata"
+      "Nekomata",
+      "Eous",
+      "Bangboo",
+      "Phaethon",
+      "Belle",
+      "Wise"
     ]
   },
   {
@@ -1264,11 +1276,12 @@
       "Spook Shack",
       "Qingyi",
       "Special Response Team",
-      "Oceania",
       "Remielle",
       "Covenant of Dayat",
       "Burnice",
-      "Sons of Calydon"
+      "Sons of Calydon",
+      "Phaethon",
+      "Belle"
     ]
   },
   {
@@ -1344,7 +1357,9 @@
     "note": "No.106",
     "tags": [
       "Character",
-      "Africa"
+      "Eous",
+      "Bangboo",
+      "Phaethon"
     ]
   },
   {
@@ -1676,7 +1691,8 @@
     "note": "No.134",
     "tags": [
       "Character",
-      "South America"
+      "Phoenix",
+      "Krampus"
     ]
   },
   {
@@ -1686,13 +1702,14 @@
     "note": "No.135",
     "tags": [
       "Character",
-      "Oceania",
       "Pulchra",
       "Sons of Calydon",
       "Vivian",
       "Mockingbird",
       "Ye Shunguang",
-      "Yunkui Summit"
+      "Yunkui Summit",
+      "Wise",
+      "Phaethon"
     ]
   },
   {
@@ -1772,9 +1789,10 @@
     "note": "No.142",
     "tags": [
       "Character",
-      "Africa",
       "Ellen",
-      "Victoria Housekeeping"
+      "Victoria Housekeeping",
+      "Sharkboo",
+      "Bangboo"
     ]
   },
   {
@@ -1851,7 +1869,6 @@
       "Yanagi",
       "Qingyi",
       "Special Response Team",
-      "Africa",
       "Anby",
       "Cunning Hares",
       "Nicole",
@@ -1862,7 +1879,10 @@
       "Soukaku",
       "Pulchra",
       "Piper",
-      "Lucy"
+      "Lucy",
+      "Eous",
+      "Bangboo",
+      "Phaethon"
     ]
   },
   {
