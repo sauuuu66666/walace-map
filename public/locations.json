@@ -1887,5 +1887,61 @@
       "Yixuan",
       "Yunkui Summit"
     ]
+  },
+  {
+    "url": "https://wplace.live/?lat=48.49313665420439&lng=-89.520380859375&zoom=12.729736538980408",
+    "lat": 48.49313665420439,
+    "lng": -89.520380859375,
+    "note": "No.150",
+    "tags": [
+      "Character",
+      "Anby",
+      "Cunning Hares"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=50.0163805818786&lng=-97.52422851562501&zoom=11.856448280644125",
+    "lat": 50.0163805818786,
+    "lng": -97.52422851562501,
+    "note": "No.151",
+    "tags": [
+      "Character",
+      "Trigger",
+      "Obol Squad",
+      "Vivian",
+      "Mockingbird",
+      "Zhu Yuan",
+      "Special Response Team",
+      "Caesar",
+      "Sons of Calydon",
+      "Soukaku",
+      "Section 6"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=50.508452106013735&lng=-104.334169921875&zoom=11.719762598945781",
+    "lat": 50.508452106013735,
+    "lng": -104.334169921875,
+    "note": "No.152",
+    "tags": [
+      "Character",
+      "Jane Doe",
+      "Special Response Team"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=41.3075889130109&lng=28.253056640624973&zoom=11.467649218387923",
+    "lat": 41.3075889130109,
+    "lng": 28.253056640624973,
+    "note": "NO.153",
+    "tags": [
+      "Character",
+      "Dialyn",
+      "Krampus",
+      "Seed",
+      "Obol Squad",
+      "Norma",
+      "External Strategy"
+    ]
   }
 ]
