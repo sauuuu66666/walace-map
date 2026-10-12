@@ -1963,5 +1963,112 @@
       "Norma",
       "External Strategy"
     ]
+  },
+  {
+    "url": "https://wplace.live/?lat=21.50434904591993&lng=-100.40264648437501&zoom=10.84946791903803",
+    "lat": 21.50434904591993,
+    "lng": -100.40264648437501,
+    "note": "No.154",
+    "tags": [
+      "Character",
+      "Corin",
+      "Victoria Housekeeping"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=24.4189&lng=-102.1504&zoom=11.2395",
+    "lat": 24.4189,
+    "lng": -102.1504,
+    "note": "No.155",
+    "tags": [
+      "Character",
+      "Ellen",
+      "Victoria Housekeeping",
+      "Burnice",
+      "Sons of Calydon"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=25.2023&lng=-102.3385&zoom=10.7329",
+    "lat": 25.2023,
+    "lng": -102.3385,
+    "note": "No.156",
+    "tags": [
+      "Character",
+      "Nicole",
+      "Cunning Hares",
+      "Rina",
+      "Victoria Housekeeping"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=25.2023&lng=-102.3385&zoom=10.7329",
+    "lat": 25.2023,
+    "lng": -102.3385,
+    "note": "No.157",
+    "tags": [
+      "Character",
+      "Belle",
+      "Phaethon"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=63.2642&lng=8.5756&zoom=12.3578",
+    "lat": 63.2642,
+    "lng": 8.5756,
+    "note": "No.158",
+    "tags": [
+      "Character",
+      "Jane Doe",
+      "Special Response Team",
+      "Miyabi",
+      "Section 6"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=63.5297&lng=11.0274&zoom=12.2616",
+    "lat": 63.5297,
+    "lng": 11.0274,
+    "note": "No.159",
+    "tags": [
+      "Character",
+      "Billy",
+      "Cunning Hares",
+      "Anby",
+      "Nicole",
+      "Nekomata",
+      "Ellen",
+      "Victoria Housekeeping",
+      "Miyabi",
+      "Section 6",
+      "Alice",
+      "Spook Shack",
+      "Eous",
+      "Bangboo",
+      "Phaethon",
+      "Vivian",
+      "Mockingbird",
+      "Yixuan",
+      "Yunkui Summit",
+      "Yuzuha",
+      "Yidhari",
+      "Jane Doe",
+      "Special Response Team"
+    ]
+  },
+  {
+    "url": "https://wplace.live/?lat=64.8470&lng=37.6094&zoom=12.0909",
+    "lat": 64.847,
+    "lng": 37.6094,
+    "note": "No.160",
+    "tags": [
+      "Character",
+      "Ellen",
+      "Victoria Housekeeping",
+      "Miyabi",
+      "Section 6",
+      "Yuzuha",
+      "Spook Shack"
+    ]
   }
 ]
