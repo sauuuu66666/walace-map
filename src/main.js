@@ -122,7 +122,7 @@ function normalize(data){
   }
   if(!Number.isFinite(lat)||!Number.isFinite(lng)||Math.abs(lat)>90||Math.abs(lng)>180)return null;
   const raw=Array.isArray(x.tags)?x.tags:typeof x.tags==='string'?x.tags.split(/[,、]/):[];
-  return{id:String(x.id||`p-${i}`),url,lat,lng,note:String(x.note||x.memo||x.title||tr('noNote')),tags:[...new Set(raw.map(t=>String(t).trim()).filter(Boolean))]};
+  const id=String(x.id||`p-${i}`),note=String(x.note||x.memo||x.title||tr('noNote')),tags=[...new Set(raw.map(t=>String(t).trim()).filter(Boolean))];return{id,url,lat,lng,note,tags,tagSet:new Set(tags),searchText:[note,lat,lng,...tags,...tags.map(tag=>TAG_LABELS_JA[tag]||tag)].join('\n').toLowerCase()};
  }).filter(Boolean);
 }
 const FACTION_TAGS=new Set(['Phaethon','Cunning Hares','Belobog','Victoria Housekeeping','Obol Squad','Special Response Team','Sons of Calydon','Section 6','Stars of Lyra','Silver Squad','Mockingbird','Yunkui Summit','Spook Shack','Krampus','Angels of Delusion','Metropolitan Order','External Strategy','Covenant of Dayat','Airspace Patrol','Flint Workshop']);
@@ -130,24 +130,26 @@ const CHARACTER_TAGS=new Set(['Pyrois','Anby','Billy','Nekomata','Nicole','Starl
 const BANGBOO_TAGS=new Set(['Eous','Agent Gulliver','Amillion','Ariel','Avocaboo','Baddieboo','Bagboo','Bangvolver','Belion','Biggest Fan','Bild N. Boolok','Birkblick','Boollseye','Booltergeist','Booressure','Brawlerboo','Butler','Cryboo','Devilboo','Electroboo','Excaliboo','Exploreboo','Knightboo','Luckyboo','Magnetiboo','Mercury','Miss Esme','Officer Cui','Overtimeboo','Paperboo','Penguinboo','Plugboo','Red Moccus','Resonaboo','Robin','Rocketboo','Safety','Sharkboo','Snap','Sprout','Sumoboo','Ultra Jake']);
 function allTags(){return [...new Set(items.flatMap(x=>x.tags))];}
 function groupedTags(){const groups={faction:[],character:[],bangboo:[],other:[]};for(const tag of allTags()){if(FACTION_TAGS.has(tag))groups.faction.push(tag);else if(CHARACTER_TAGS.has(tag))groups.character.push(tag);else if(BANGBOO_TAGS.has(tag))groups.bangboo.push(tag);else groups.other.push(tag);}Object.values(groups).forEach(tags=>tags.sort((a,b)=>a.localeCompare(b,'en')));return groups;}
-function visible(){const q=$('#search').value.trim().toLowerCase();return items.filter(x=>{const matchesText=!q||[x.note,x.lat,x.lng,...x.tags,...x.tags.map(tag=>TAG_LABELS_JA[tag]||tag)].some(v=>String(v).toLowerCase().includes(q));const matchesTags=activeTags.size===0||(tagMode==='AND'?[...activeTags].every(tag=>x.tags.includes(tag)):[...activeTags].some(tag=>x.tags.includes(tag)));return matchesText&&matchesTags;});}
+function visible(){const q=$('#search').value.trim().toLowerCase(),selected=[...activeTags];return items.filter(x=>{const matchesText=!q||x.searchText.includes(q);const matchesTags=!selected.length||(tagMode==='AND'?selected.every(tag=>x.tagSet.has(tag)):selected.some(tag=>x.tagSet.has(tag)));return matchesText&&matchesTags;});}
 function renderTags(){document.querySelectorAll('[data-mode]').forEach(button=>button.classList.toggle('active',button.dataset.mode===tagMode));const groups=groupedTags();const allButton=`<button class="tag-chip ${activeTags.size===0?'active':''}" data-clear-tags="1">${tr('all')}</button>`;const groupHtml=['faction','character','bangboo','other'].filter(key=>groups[key].length).map(key=>`<section class="tag-group"><div class="tag-group-title">${tr(key)}</div><div class="tag-group-buttons">${groups[key].map(tag=>`<button class="tag-chip ${activeTags.has(tag)?'active':''}" data-tag="${esc(tag)}">#${esc(tagLabel(tag))}</button>`).join('')}</div></section>`).join('');$('#tag-filter').innerHTML=`<div class="tag-group"><div class="tag-group-buttons">${allButton}</div></div>${groupHtml}`;updateTagsToggle();}
 function clearMarkers(){markers.forEach(m=>m.remove());markers=[];}
-function render(){
- const data=visible();clearMarkers();
+function render(data=visible(),refreshTags=true){
+ clearMarkers();
  if(map&&maplibregl)data.forEach(x=>{const el=document.createElement('div');el.className='star-marker';el.textContent='★';const tagHtml=x.tags.length?`<div class="popup-tags">${x.tags.map(t=>`<span class="tag">#${esc(tagLabel(t))}</span>`).join('')}</div>`:'';const link=x.url?`<a class="popup-link" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">${tr('openWplace')}</a>`:'';const popup=new maplibregl.Popup({offset:22,maxWidth:'320px'}).setHTML(`<div class="popup-body"><b>${esc(x.note)}</b><small>${x.lat.toFixed(5)}, ${x.lng.toFixed(5)}</small>${tagHtml}${link}</div>`);markers.push(new maplibregl.Marker({element:el,anchor:'center'}).setLngLat([x.lng,x.lat]).setPopup(popup).addTo(map));});
  $('#list').innerHTML=data.map(x=>`<div class="item"><b>★ ${esc(x.note)}</b><small>${x.lat.toFixed(5)}, ${x.lng.toFixed(5)}</small>${x.tags.length?`<div class="item-tags">${x.tags.map(t=>`<span class="tag">#${esc(tagLabel(t))}</span>`).join('')}</div>`:''}<div class="item-actions"><button data-id="${esc(x.id)}">${tr('showOnMap')}</button>${x.url?`<a class="link-button" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">Wplace</a>`:''}</div></div>`).join('')||`<div class="empty">${tr('noResults')}</div>`;
- renderTags();const separator=tagMode==='AND'?' + ':' / ';const selected=activeTags.size?` / ${tagMode}: ${[...activeTags].map(tag=>`#${tagLabel(tag)}`).join(separator)}`:'';setStatus(`${tr('publicPoints')} ${items.length} / ${tr('shown')} ${data.length}${selected}`);
+ if(refreshTags)renderTags();const separator=tagMode==='AND'?' + ':' / ';const selected=activeTags.size?` / ${tagMode}: ${[...activeTags].map(tag=>`#${tagLabel(tag)}`).join(separator)}`:'';setStatus(`${tr('publicPoints')} ${items.length} / ${tr('shown')} ${data.length}${selected}`);
 }
-function fit(){const data=visible();if(!map||!data.length)return;if(data.length===1){map.flyTo({center:[data[0].lng,data[0].lat],zoom:9});return}const b=new maplibregl.LngLatBounds();data.forEach(x=>b.extend([x.lng,x.lat]));map.fitBounds(b,{padding:70,maxZoom:10});}
+function fit(data=visible()){if(!map||!data.length)return;if(data.length===1){map.flyTo({center:[data[0].lng,data[0].lat],zoom:9});return}const b=new maplibregl.LngLatBounds();data.forEach(x=>b.extend([x.lng,x.lat]));map.fitBounds(b,{padding:70,maxZoom:10});}
+
+function renderAndFit(refreshTags=true){const data=visible();render(data,refreshTags);if(map&&data.length)fit(data);}
 
 $('#panel-toggle').onclick=togglePanel;
 $('#tags-toggle').onclick=toggleTags;
 document.querySelector('.language-switch').onclick=e=>{const lang=e.target.dataset.lang;if(!lang||lang===language)return;language=lang;try{localStorage.setItem('wplace-language',language);}catch{}applyLanguage();};
-$('#search').oninput=()=>{render();if(map&&visible().length)fit();};
+let searchFrame=0;$('#search').oninput=()=>{cancelAnimationFrame(searchFrame);searchFrame=requestAnimationFrame(()=>renderAndFit(false));};
 $('#fit').onclick=fit;
-document.querySelector('.mode-switch').onclick=e=>{const mode=e.target.dataset.mode;if(!mode||mode===tagMode)return;tagMode=mode;render();if(map&&visible().length)fit();};
-$('#tag-filter').onclick=e=>{if(e.target.dataset.clearTags!==undefined){activeTags.clear();}else{const tag=e.target.dataset.tag;if(!tag)return;activeTags.has(tag)?activeTags.delete(tag):activeTags.add(tag);}render();if(map&&visible().length)fit();};
+document.querySelector('.mode-switch').onclick=e=>{const mode=e.target.dataset.mode;if(!mode||mode===tagMode)return;tagMode=mode;renderAndFit(true);};
+$('#tag-filter').onclick=e=>{if(e.target.dataset.clearTags!==undefined){activeTags.clear();}else{const tag=e.target.dataset.tag;if(!tag)return;activeTags.has(tag)?activeTags.delete(tag):activeTags.add(tag);}renderAndFit(true);};
 $('#list').onclick=e=>{const id=e.target.dataset.id;if(!id||!map)return;const x=items.find(v=>v.id===id);if(x)map.flyTo({center:[x.lng,x.lat],zoom:10});};
 
 async function loadData(){try{const r=await fetch(`${import.meta.env.BASE_URL}locations.json`,{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);items=normalize(await r.json());render();if(map)fit();}catch(e){setStatus(`${tr('dataError')}: ${e.message}`,true)}}
